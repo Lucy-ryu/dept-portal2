@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="부가세·대출 이자·환율 계산기와 재무 용어 사전, 재무 FAQ, 공식 기관 가이드 자료실을 한곳에 모은 생활 재무 포털">
+<title>재무 계산기 &amp; 용어 사전</title>
+<style>
+:root{
+  --header-h:60px;
+  --green-950:#0b2e2f; --green-900:#0f3d40; --green-800:#0f5257; --green-700:#0e7c7b;
+  --green-600:#1a9a96; --green-300:#7fd1c8; --green-200:#c5ebe5; --green-100:#def5f1; --green-50:#effaf8;
+  --gray-900:#19292a; --gray-700:#3f5051; --gray-600:#566768; --gray-500:#78898a;
+  --gray-300:#c5d3d3; --gray-200:#dce7e6; --gray-100:#edf4f3;
+  --bg:#f5faf9; --err:#b3402f; --radius:18px;
+  --font:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic","맑은 고딕",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:var(--font);color:var(--gray-900);background:var(--bg);line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+button,input,select{font-family:inherit}
+:focus-visible{outline:3px solid var(--green-600);outline-offset:2px}
+.container{width:min(1120px,100% - 40px);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:var(--green-900);padding:8px 14px;z-index:100;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+
+/* ---------- Header ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:var(--green-900);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 2px 10px rgba(11,46,47,.18)}
+.header-inner{height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;letter-spacing:-.01em;flex-shrink:0}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--green-600);color:#fff;font-size:1rem;font-weight:700}
+.nav{display:flex;gap:4px;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{display:block;padding:9px 14px;border-radius:8px;text-decoration:none;color:#566768;font-size:.95rem;font-weight:500;white-space:nowrap;position:relative;transition:background .15s,color .15s}
+.nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav a.active{color:#fff;font-weight:700}
+.nav a.active::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:3px;border-radius:3px;background:var(--green-300)}
+
+/* ---------- Layout ---------- */
+section[id]{scroll-margin-top:calc(var(--header-h) - 1px)}
+.section{padding:72px 0}
+.section.alt{background:#fff;border-block:1px solid var(--gray-200)}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;color:var(--green-700);text-transform:uppercase;margin-bottom:8px}
+.section h2{font-size:clamp(1.5rem,3vw,1.9rem);letter-spacing:-.02em;color:var(--green-900)}
+.section .lead{margin-top:10px;color:var(--gray-600);max-width:720px}
+.section-head{margin-bottom:28px}
+
+/* ---------- Hero ---------- */
+.hero{background:
+  radial-gradient(circle at 85% 15%,rgba(127,209,200,.20),transparent 42%),
+  radial-gradient(circle at 10% 90%,rgba(255,255,255,.07),transparent 40%),
+  linear-gradient(135deg,var(--green-800) 0%,var(--green-700) 60%,#c8ebe4 100%);
+  color:#fff;padding:76px 0 72px}
+.hero .eyebrow{color:var(--green-300)}
+.hero h1{font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.2;letter-spacing:-.03em;font-weight:800}
+.hero p.sub{margin-top:16px;max-width:640px;color:#3f5051;font-size:1.05rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .12s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-light{background:#fff;color:var(--green-900)}
+.btn-light:hover{background:var(--green-50)}
+.btn-outline{border-color:rgba(255,255,255,.45);color:#fff;background:transparent}
+.btn-outline:hover{background:rgba(255,255,255,.1)}
+.btn-primary{background:var(--green-700);color:#fff}
+.btn-primary:hover{background:var(--green-800)}
+.btn-ghost{background:#fff;border-color:var(--gray-300);color:var(--gray-700)}
+.btn-ghost:hover{background:var(--gray-100)}
+.btn-sm{padding:7px 14px;font-size:.85rem;border-radius:8px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.quick-card{display:block;text-decoration:none;padding:18px 20px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);transition:background .15s,transform .15s}
+.quick-card:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.quick-card strong{display:block;font-size:1.05rem}
+.quick-card span{display:block;margin-top:2px;font-size:.88rem;color:#566768}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:26px;font-size:.88rem;color:#566768}
+.facts b{color:#fff}
+
+/* ---------- Card / Tabs ---------- */
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:0 6px 24px rgba(15,61,64,.06)}
+.tablist{display:flex;gap:4px;border-bottom:1px solid var(--gray-200);padding:0 12px;overflow-x:auto;scrollbar-width:none}
+.tablist::-webkit-scrollbar{display:none}
+.tab{appearance:none;background:none;border:0;padding:16px 20px;font-size:1rem;font-weight:600;color:var(--gray-600);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;margin-bottom:-1px}
+.tab:hover{color:var(--green-800)}
+.tab[aria-selected="true"]{color:var(--green-800);border-bottom-color:var(--green-700)}
+.panel{padding:28px}
+.panel[hidden]{display:none}
+.panel-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
+.panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.panel-title h3{font-size:1.1rem;color:var(--green-900)}
+
+/* ---------- Form ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field>label,.label{font-size:.85rem;font-weight:600;color:var(--gray-700)}
+.ig{display:flex;align-items:center;background:#fff;border:1px solid var(--gray-300);border-radius:10px;transition:border-color .15s,box-shadow .15s}
+.ig:focus-within{border-color:var(--green-600);box-shadow:0 0 0 3px rgba(26,154,150,.2)}
+.ig input,.ig select{flex:1;min-width:0;border:0;background:transparent;padding:12px 14px;font-size:1rem;color:var(--gray-900);outline:none}
+.ig select{cursor:pointer}
+.ig .suffix{padding-right:14px;color:var(--gray-600);font-size:.9rem;white-space:nowrap}
+input.num{text-align:right;font-variant-numeric:tabular-nums}
+input:disabled{color:var(--gray-500);background:var(--gray-100)}
+.hint{font-size:.8rem;color:var(--gray-600)}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.field{min-width:0}
+.ig{min-width:0}
+.ig input{width:100%}
+.ig select{width:100%}
+.ig select.unit{width:auto;flex:0 0 auto;padding-left:4px;padding-right:10px}
+.seg{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--gray-100);border-radius:10px;padding:4px;gap:4px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:block;text-align:center;padding:9px 8px;border-radius:8px;font-size:.88rem;font-weight:600;color:var(--gray-700);cursor:pointer;line-height:1.35}
+.seg input:checked+label{background:#fff;color:var(--green-800);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.seg input:focus-visible+label{outline:3px solid var(--green-600)}
+
+/* ---------- Results ---------- */
+.results{background:var(--green-50);border:1px solid var(--green-100);border-radius:12px;padding:8px 20px 20px}
+.metric{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 0;border-bottom:1px dashed var(--green-200)}
+.metric .k{color:var(--gray-600);font-size:.9rem}
+.metric .v{font-weight:700;font-size:1.15rem;font-variant-numeric:tabular-nums;text-align:right}
+.metric .v small{display:block;font-weight:500;font-size:.78rem;color:var(--gray-600);margin-top:2px}
+.metric.main .v{font-size:1.65rem;color:var(--green-800)}
+.formula{margin-top:14px;font-size:.84rem;color:var(--gray-700);background:#fff;border:1px solid var(--green-100);border-radius:8px;padding:10px 12px;line-height:1.65}
+.note{margin-top:12px;font-size:.78rem;color:var(--gray-600);line-height:1.65}
+.msg{min-height:1.2em;margin-top:10px;font-size:.85rem;color:var(--err)}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--gray-200);margin-top:14px}
+.bar .bp{background:var(--green-700)}
+.bar .bi{background:var(--gray-500)}
+.legend{display:flex;justify-content:space-between;gap:10px;margin-top:6px;font-size:.78rem;color:var(--gray-700)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:baseline}
+details.schedule{margin-top:16px;background:#fff;border:1px solid var(--green-100);border-radius:10px}
+details.schedule>summary{cursor:pointer;padding:11px 14px;font-weight:600;font-size:.9rem;color:var(--green-800)}
+.table-wrap{max-height:340px;overflow:auto;border-top:1px solid var(--green-100)}
+table{width:100%;border-collapse:collapse;font-size:.82rem;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:center}
+thead th{position:sticky;top:0;background:var(--green-100);color:var(--green-900);font-weight:700}
+tbody tr:nth-child(even){background:var(--gray-100)}
+
+/* ---------- Glossary ---------- */
+.toolbar{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
+.search{position:relative}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-500);pointer-events:none}
+.search input{width:100%;padding:13px 44px 13px 44px;font-size:1rem;border:1px solid var(--gray-300);border-radius:12px;background:#fff;outline:none}
+.search input:focus{border-color:var(--green-600);box-shadow:0 0 0 3px rgba(26,154,150,.2)}
+.search .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:var(--gray-100);color:var(--gray-600);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1}
+.search .clear[hidden]{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--gray-300);background:#fff;border-radius:999px;padding:6px 15px;font-size:.86rem;cursor:pointer;color:var(--gray-700)}
+.chip:hover{border-color:var(--green-600)}
+.chip[aria-pressed="true"]{background:var(--green-700);border-color:var(--green-700);color:#fff}
+.count{font-size:.85rem;color:var(--gray-600)}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:12px}
+.term{background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:18px 20px}
+.term header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.term h3{font-size:1.05rem;color:var(--green-900)}
+.tag{flex-shrink:0;font-size:.72rem;font-weight:700;background:var(--green-100);color:var(--green-800);padding:2px 9px;border-radius:999px;white-space:nowrap}
+.term p{font-size:.92rem;color:var(--gray-700);line-height:1.7}
+.term .alias{margin-top:8px;font-size:.78rem;color:var(--gray-600)}
+mark{background:#c5ebe5;color:inherit;border-radius:3px;padding:0 1px}
+.empty{padding:36px 20px;text-align:center;color:var(--gray-600);background:#fff;border:1px dashed var(--gray-300);border-radius:12px;margin-top:12px}
+
+/* ---------- FAQ ---------- */
+.faq-tools{display:flex;justify-content:flex-end;margin-bottom:10px}
+details.faq{background:#fff;border:1px solid var(--gray-200);border-radius:12px;margin-bottom:10px}
+details.faq[open]{border-color:var(--green-300);box-shadow:0 4px 14px rgba(15,61,64,.06)}
+details.faq>summary{cursor:pointer;list-style:none;padding:17px 20px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:14px;color:var(--green-900)}
+details.faq>summary::-webkit-details-marker{display:none}
+details.faq>summary::after{content:"+";color:var(--green-700);font-weight:700;font-size:1.3rem;line-height:1}
+details.faq[open]>summary::after{content:"−"}
+.faq-q{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.faq-cat{display:inline-block;font-size:.74rem;font-weight:700;color:var(--green-700);background:var(--green-50);border:1px solid var(--green-200);border-radius:999px;padding:2px 10px;line-height:1.5;white-space:nowrap}
+.faq-body{padding:0 20px 18px;color:var(--gray-700);font-size:.95rem;line-height:1.8}
+.faq-body p+p{margin-top:8px}
+.faq-body code{background:var(--green-50);border:1px solid var(--green-100);padding:1px 6px;border-radius:5px;font-size:.88em}
+.src{margin-top:12px;padding-top:9px;border-top:1px dashed var(--gray-200);font-size:.8rem;color:var(--gray-600);line-height:1.6}
+
+/* ---------- Library ---------- */
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.lib-card{display:flex;flex-direction:column;gap:6px;text-decoration:none;background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:18px 20px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.lib-card:hover{transform:translateY(-3px);border-color:var(--green-600);box-shadow:0 8px 20px rgba(15,61,64,.10)}
+.lib-card .tag{align-self:flex-start}
+.lib-card h3{font-size:1.02rem;color:var(--green-900);margin-top:4px}
+.lib-card .org{font-size:.8rem;color:var(--gray-600)}
+.lib-card p{font-size:.88rem;color:var(--gray-700);line-height:1.65;flex:1}
+.lib-card .go{margin-top:6px;font-size:.82rem;font-weight:600;color:var(--green-700)}
+
+/* ---------- Downloads (자료실 파일 목록) ---------- */
+.dl{margin-top:56px}
+.dl-title{font-size:1.3rem;letter-spacing:-.02em;color:var(--green-900)}
+.dl .lead{margin-top:8px;max-width:720px;color:var(--gray-600)}
+.dl-cols,.dl-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) 80px 128px;gap:8px 20px;align-items:center}
+.dl-cols{margin-top:22px;padding:0 20px 8px;font-size:.78rem;font-weight:700;color:var(--gray-600);letter-spacing:.04em}
+.dl-cols span:nth-child(3){text-align:right}
+.dl-cols span:nth-child(4){text-align:center}
+.dl-group{display:flex;align-items:center;gap:8px;margin:22px 0 8px;font-size:.95rem;font-weight:700;color:var(--green-800)}
+.dl-group .num{font-size:.74rem;background:var(--green-100);color:var(--green-800);padding:1px 9px;border-radius:999px}
+.dl-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dl-row{background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:14px 20px;transition:border-color .15s,box-shadow .15s}
+.dl-row:hover{border-color:var(--green-600);box-shadow:0 6px 18px rgba(15,61,64,.08)}
+.dl-name{font-weight:600;color:var(--green-900);overflow-wrap:anywhere}
+.dl-name small{display:block;margin-top:2px;font-weight:400;font-size:.76rem;color:var(--gray-600);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.dl-desc{font-size:.9rem;color:var(--gray-700);line-height:1.6}
+.dl-size{font-size:.86rem;color:var(--gray-600);font-variant-numeric:tabular-nums;text-align:right}
+.dl-act .btn{width:100%}
+.dl-act svg{flex-shrink:0}
+@media (max-width:720px){
+  .dl-cols{display:none}
+  .dl-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:14px 16px}
+  .dl-name,.dl-desc{grid-column:1/-1}
+  .dl-size{text-align:left}
+  .dl-act .btn{width:auto}
+}
+
+/* ---------- FAQ 검색·분류 ---------- */
+.faq-toolbar{margin-bottom:12px}
+.faq-tools{justify-content:space-between;align-items:center;gap:12px}
+.faq-tools .count{margin:0}
+details.faq[hidden]{display:none}
+.faq-qt{min-width:0}
+.search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+
+/* ---------- Footer ---------- */
+footer{background:var(--green-950);color:#b4cfcc;padding:36px 0;font-size:.85rem;line-height:1.8}
+footer strong{color:#fff}
+
+/* ---------- Responsive ---------- */
+@media (max-width:860px){
+  .panel-grid{grid-template-columns:1fr;gap:24px}
+  .quick{grid-template-columns:1fr}
+  .section{padding:56px 0}
+}
+@media (max-width:560px){
+  :root{--header-h:54px}
+  .brand-text{display:none}
+  .nav{flex:1;justify-content:space-between}
+  .nav a{padding:8px 9px;font-size:.88rem}
+  .nav a.active::after{left:9px;right:9px}
+  .panel{padding:20px 16px}
+  .tablist{padding:0 6px}
+  .tab{padding:14px 10px;font-size:.88rem}
+  .row2{grid-template-columns:1fr}
+  .hero{padding:52px 0 52px}
+  .metric.main .v{font-size:1.4rem}
+}
+/* ===== 시안 C · 민트 라이트 (밝고 가벼운 분위기) ===== */
+.site-header{background:#fff;border-bottom:1px solid var(--gray-200);box-shadow:0 2px 12px rgba(15,61,64,.06)}
+.brand{color:var(--green-900)}
+.brand-mark{background:var(--green-700)}
+.nav a:hover{background:var(--green-50);color:var(--green-900)}
+.nav a.active{color:var(--green-800)}
+.nav a.active::after{background:var(--green-700)}
+.hero{background:
+  radial-gradient(circle at 86% 10%,rgba(127,209,200,.45),transparent 45%),
+  radial-gradient(circle at 6% 96%,rgba(255,214,170,.38),transparent 40%),
+  linear-gradient(135deg,#e6f7f4 0%,#d6f1ec 60%,#c8ebe4 100%);
+  color:var(--green-900)}
+.hero .eyebrow{color:var(--green-800)}
+.btn-light{background:var(--green-700);color:#fff}
+.btn-light:hover{background:var(--green-800)}
+.btn-outline{border-color:var(--green-700);color:var(--green-800)}
+.btn-outline:hover{background:rgba(14,124,123,.08)}
+.quick-card{background:#fff;border:1px solid var(--green-200);color:var(--green-900);box-shadow:0 4px 14px rgba(15,61,64,.06)}
+.quick-card:hover{background:var(--green-50)}
+.facts b{color:var(--green-900)}
+.card,.term,.lib-card,details.faq{box-shadow:0 6px 22px rgba(15,61,64,.06)}
+.chip,.tag,.faq-cat{border-radius:999px}
+.btn{border-radius:999px}
+.section.alt{background:#fff}
+@media print{.site-header{position:static}.hero{color:#000;background:#fff}}
+</style>
+</head>
+<body>
+<a class="skip" href="#calc">본문 바로가기</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" data-nav aria-label="홈으로 이동"><span class="brand-mark" aria-hidden="true">₩</span><span class="brand-text">생활 재무 포털</span></a>
+    <nav aria-label="주 메뉴">
+      <ul class="nav">
+        <li><a href="#home" data-nav>홈</a></li>
+        <li><a href="#calc" data-nav>계산기</a></li>
+        <li><a href="#glossary" data-nav>용어 사전</a></li>
+        <li><a href="#faq" data-nav>FAQ</a></li>
+        <li><a href="#library" data-nav>자료실</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ================= 홈 ================= -->
+  <section id="home" class="hero" aria-labelledby="home-title">
+    <div class="container">
+      <p class="eyebrow">생활 재무 도구 모음</p>
+      <h1 id="home-title">재무 계산기 &amp; 용어 사전</h1>
+      <p class="sub">부가세, 대출 이자, 환율을 바로 계산하고 재무 용어를 검색해 보실 수 있습니다. 모든 계산은 이 브라우저 안에서만 이루어지며, 입력하신 값은 저장되거나 외부로 전송되지 않습니다.</p>
+      <div class="hero-actions">
+        <a class="btn btn-light" href="#calc" data-nav>계산기 시작하기</a>
+        <a class="btn btn-outline" href="#glossary" data-nav>용어 검색하기</a>
+      </div>
+      <div class="quick">
+        <a class="quick-card" href="#calc" data-nav data-open-tab="vat"><strong>부가세 계산기</strong><span>공급가액 ↔ 합계금액 변환</span></a>
+        <a class="quick-card" href="#calc" data-nav data-open-tab="loan"><strong>대출 이자 계산기</strong><span>3가지 상환방식 · 회차별 스케줄</span></a>
+        <a class="quick-card" href="#calc" data-nav data-open-tab="fx"><strong>환율 환산기</strong><span>환율 직접 입력 · 수수료 반영</span></a>
+      </div>
+      <p class="facts"><span><b id="term-count">0</b>개 재무 용어</span><span><b>공식 기관</b> 자료 링크 모음</span><span><b>FAQ</b> 실무 문답</span></p>
+    </div>
+  </section>
+
+  <!-- ================= 계산기 ================= -->
+  <section id="calc" class="section" aria-labelledby="calc-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Calculators</p>
+        <h2 id="calc-title">계산기</h2>
+        <p class="lead">탭을 선택해 필요한 계산기를 사용하실 수 있습니다. 금액은 숫자만 입력하시면 자동으로 쉼표가 들어갑니다.</p>
+      </div>
+
+      <div class="card">
+        <div class="tablist" role="tablist" aria-label="계산기 종류">
+          <button class="tab" role="tab" id="tab-vat" data-tab="vat" aria-selected="true" aria-controls="panel-vat">부가세 계산기</button>
+          <button class="tab" role="tab" id="tab-loan" data-tab="loan" aria-selected="false" aria-controls="panel-loan" tabindex="-1">대출 이자 계산기</button>
+          <button class="tab" role="tab" id="tab-fx" data-tab="fx" aria-selected="false" aria-controls="panel-fx" tabindex="-1">환율 환산기</button>
+        </div>
+
+        <!-- 부가세 -->
+        <div class="panel" role="tabpanel" id="panel-vat" aria-labelledby="tab-vat">
+          <div class="panel-grid">
+            <div>
+              <div class="panel-title"><h3>부가세 계산</h3><button type="button" class="btn btn-ghost btn-sm" id="vat-reset">초기화</button></div>
+              <div class="field">
+                <span class="label" id="vat-mode-label">입력 기준</span>
+                <div class="seg" role="radiogroup" aria-labelledby="vat-mode-label">
+                  <input type="radio" name="vat-mode" id="vat-m1" value="supply" checked><label for="vat-m1">공급가액 기준<br><small>(부가세 별도)</small></label>
+                  <input type="radio" name="vat-mode" id="vat-m2" value="total"><label for="vat-m2">합계금액 기준<br><small>(부가세 포함)</small></label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="vat-amount" id="vat-amount-label">공급가액 (원)</label>
+                <div class="ig"><input class="num" id="vat-amount" type="text" inputmode="numeric" autocomplete="off" placeholder="금액을 입력해 주세요"><span class="suffix">원</span></div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="vat-rate">세율</label>
+                  <div class="ig"><input class="num" id="vat-rate" type="text" inputmode="decimal" autocomplete="off" value="10"><span class="suffix">%</span></div>
+                </div>
+                <div class="field">
+                  <label for="vat-round">부가세 원 미만 처리</label>
+                  <div class="ig"><select id="vat-round"><option value="round">반올림</option><option value="floor">절사</option><option value="ceil">올림</option></select></div>
+                </div>
+              </div>
+              <p class="hint">일반과세 표준세율 10% 기준입니다. 간이과세자·영세율·면세 거래는 적용 방식이 달라질 수 있습니다.</p>
+            </div>
+            <div>
+              <div class="results" aria-live="polite">
+                <div class="metric"><span class="k">공급가액</span><span class="v" id="vat-supply">—</span></div>
+                <div class="metric"><span class="k">부가세</span><span class="v" id="vat-tax">—</span></div>
+                <div class="metric main"><span class="k">합계금액</span><span class="v" id="vat-total">—</span></div>
+                <div class="formula" id="vat-formula">금액을 입력하시면 계산식이 표시됩니다.</div>
+                <p class="msg" id="vat-msg" role="alert"></p>
+                <div class="actions"><button type="button" class="btn btn-primary btn-sm" id="vat-copy">결과 복사</button></div>
+              </div>
+              <p class="note">세금계산서 발급·신고 금액은 사업자 유형과 거래 조건에 따라 달라질 수 있으므로, 실제 신고 시에는 홈택스 및 세무사 확인을 권고드립니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 대출 -->
+        <div class="panel" role="tabpanel" id="panel-loan" aria-labelledby="tab-loan" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-title"><h3>대출 이자 계산</h3><button type="button" class="btn btn-ghost btn-sm" id="loan-reset">초기화</button></div>
+              <div class="field">
+                <label for="loan-principal">대출 원금 (원)</label>
+                <div class="ig"><input class="num" id="loan-principal" type="text" inputmode="numeric" autocomplete="off"><span class="suffix">원</span></div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="loan-rate">연 이자율</label>
+                  <div class="ig"><input class="num" id="loan-rate" type="text" inputmode="decimal" autocomplete="off"><span class="suffix">%</span></div>
+                </div>
+                <div class="field">
+                  <label for="loan-term">대출 기간</label>
+                  <div class="ig"><input class="num" id="loan-term" type="text" inputmode="numeric" autocomplete="off"><select class="unit" id="loan-unit" aria-label="기간 단위"><option value="year">년</option><option value="month">개월</option></select></div>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="loan-type">상환 방식</label>
+                  <div class="ig"><select id="loan-type"><option value="annuity">원리금균등상환</option><option value="principal">원금균등상환</option><option value="bullet">만기일시상환</option></select></div>
+                </div>
+                <div class="field">
+                  <label for="loan-grace">거치기간 (개월)</label>
+                  <div class="ig"><input class="num" id="loan-grace" type="text" inputmode="numeric" autocomplete="off" value="0"><span class="suffix">개월</span></div>
+                </div>
+              </div>
+              <p class="hint">거치기간에는 이자만 납부하는 것으로 계산합니다. 만기일시상환은 거치기간 설정이 적용되지 않습니다.</p>
+            </div>
+            <div>
+              <div class="results" aria-live="polite">
+                <div class="metric main"><span class="k" id="loan-main-k">월 납입액</span><span class="v"><span id="loan-main-v">—</span><small id="loan-main-sub"></small></span></div>
+                <div class="metric"><span class="k">총 이자</span><span class="v" id="loan-int">—</span></div>
+                <div class="metric"><span class="k">총 상환액</span><span class="v" id="loan-total">—</span></div>
+                <div class="bar" id="loan-bar" role="img" aria-label="원금과 이자 비중"><span class="bp" style="width:0"></span><span class="bi" style="width:0"></span></div>
+                <div class="legend"><span><i class="dot" style="background:var(--green-700)"></i>원금 <b id="loan-pp">—</b></span><span><i class="dot" style="background:var(--gray-500)"></i>이자 <b id="loan-ip">—</b></span></div>
+                <div class="formula" id="loan-formula">조건을 입력하시면 계산식이 표시됩니다.</div>
+                <p class="msg" id="loan-msg" role="alert"></p>
+                <div class="actions"><button type="button" class="btn btn-primary btn-sm" id="loan-copy">결과 복사</button></div>
+              </div>
+              <details class="schedule" id="loan-schedule">
+                <summary id="loan-schedule-sum">상환 스케줄 보기</summary>
+                <div class="table-wrap"><table><thead><tr><th>회차</th><th>납입액</th><th>원금</th><th>이자</th><th>잔액</th></tr></thead><tbody id="loan-rows"></tbody></table></div>
+              </details>
+              <p class="note">월 이자 = 대출 잔액 × 연 이자율 ÷ 12 (원 미만 절사)로 계산한 단순 추정치입니다. 실제 금액은 일수 계산 방식, 변동금리, 수수료 등 금융기관 약정에 따라 달라질 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 환율 -->
+        <div class="panel" role="tabpanel" id="panel-fx" aria-labelledby="tab-fx" hidden>
+          <div class="panel-grid">
+            <div>
+              <div class="panel-title"><h3>환율 환산</h3><button type="button" class="btn btn-ghost btn-sm" id="fx-reset">초기화</button></div>
+              <div class="field">
+                <span class="label" id="fx-dir-label">환산 방향</span>
+                <div class="seg" role="radiogroup" aria-labelledby="fx-dir-label">
+                  <input type="radio" name="fx-dir" id="fx-d1" value="toKrw" checked><label for="fx-d1">외화 → 원화</label>
+                  <input type="radio" name="fx-dir" id="fx-d2" value="toFx"><label for="fx-d2">원화 → 외화</label>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="fx-cur">통화</label>
+                  <div class="ig"><select id="fx-cur">
+                    <option value="USD">USD · 미국 달러</option>
+                    <option value="JPY">JPY · 일본 엔</option>
+                    <option value="EUR">EUR · 유로</option>
+                    <option value="CNY">CNY · 중국 위안</option>
+                    <option value="GBP">GBP · 영국 파운드</option>
+                    <option value="CUSTOM">직접 입력</option>
+                  </select></div>
+                </div>
+                <div class="field" id="fx-custom-wrap" hidden>
+                  <label for="fx-custom">통화 표시</label>
+                  <div class="ig"><input id="fx-custom" type="text" maxlength="6" autocomplete="off" placeholder="예: AUD"></div>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="fx-rate">환율 (직접 입력)</label>
+                  <div class="ig"><input class="num" id="fx-rate" type="text" inputmode="decimal" autocomplete="off" placeholder="환율을 입력해 주세요"><span class="suffix">원</span></div>
+                </div>
+                <div class="field">
+                  <label for="fx-unit">환율 기준 수량</label>
+                  <div class="ig"><select id="fx-unit"><option value="1">1 단위당</option><option value="100">100 단위당</option></select></div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="fx-amount" id="fx-amount-label">외화 금액</label>
+                <div class="ig"><input class="num" id="fx-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="금액을 입력해 주세요"><span class="suffix" id="fx-amount-suffix">USD</span></div>
+              </div>
+              <div class="field">
+                <label for="fx-fee">환전 수수료(스프레드) · 선택</label>
+                <div class="ig"><input class="num" id="fx-fee" type="text" inputmode="decimal" autocomplete="off" value="0"><span class="suffix">%</span></div>
+                <span class="hint">입력하신 환율에 불리한 방향으로 적용합니다. (외화 → 원화는 환율 하향, 원화 → 외화는 환율 상향)</span>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="fx-swap">↔ 방향 바꾸기</button>
+            </div>
+            <div>
+              <div class="results" aria-live="polite">
+                <div class="metric main"><span class="k">환산 결과</span><span class="v" id="fx-result">—</span></div>
+                <div class="metric"><span class="k">적용 환율</span><span class="v" id="fx-applied">—</span></div>
+                <div class="formula" id="fx-formula">환율과 금액을 입력하시면 계산식이 표시됩니다.</div>
+                <p class="msg" id="fx-msg" role="alert"></p>
+                <div class="actions"><button type="button" class="btn btn-primary btn-sm" id="fx-copy">결과 복사</button></div>
+              </div>
+              <p class="note">이 환산기는 시세를 자동으로 불러오지 않으며, 입력하신 환율을 그대로 사용합니다. 시장 환율과 은행 고시 환율은 한국은행 경제통계시스템(ECOS) 또는 거래 금융기관에서 확인해 주세요. 원화 결과는 원 단위로 반올림합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 용어 사전 ================= -->
+  <section id="glossary" class="section alt" aria-labelledby="glossary-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Glossary</p>
+        <h2 id="glossary-title">재무 용어 사전</h2>
+        <p class="lead">용어명, 영문 약어(예: LTV), 설명 속 단어로 검색하실 수 있고, 초성(예: ㅂㄱㄱㅊㅅ) 검색도 지원합니다.</p>
+      </div>
+      <div class="toolbar">
+        <div class="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="g-search" type="search" placeholder="용어를 검색해 보세요 (예: 부가가치세, DSR, ㅂㄱㅁㅁ)" aria-label="용어 검색" autocomplete="off">
+          <button type="button" class="clear" id="g-clear" aria-label="검색어 지우기" hidden>×</button>
+        </div>
+        <div class="chips" id="g-chips" role="group" aria-label="분류 필터"></div>
+        <p class="count" id="g-count" aria-live="polite"></p>
+      </div>
+      <div class="terms" id="g-list"></div>
+      <div class="empty" id="g-empty" hidden>검색 결과가 없습니다. 다른 검색어나 분류를 선택해 보세요.</div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="section" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">재무 FAQ</h2>
+        <p class="lead">계산기 이용 시 자주 확인하시는 내용을 정리했습니다. 각 항목 하단의 근거와 확인처를 함께 참고해 주세요.</p>
+      </div>
+      <div class="toolbar faq-toolbar">
+        <div class="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="faq-search" type="search" placeholder="키워드를 입력해 보세요 (예: 부가세, 중도상환, 환율)" aria-label="FAQ 검색" autocomplete="off">
+          <button type="button" class="clear" id="faq-clear" aria-label="검색어 지우기" hidden>×</button>
+        </div>
+        <div class="chips" id="faq-chips" role="group" aria-label="FAQ 분류 필터"></div>
+      </div>
+      <div class="faq-tools"><p class="count" id="faq-count" aria-live="polite"></p><button type="button" class="btn btn-ghost btn-sm" id="faq-toggle">모두 펼치기</button></div>
+
+      <details class="faq" data-cat="부가가치세">
+        <summary>부가세는 어떻게 계산하나요?</summary>
+        <div class="faq-body">
+          <p>일반과세 표준세율은 10%이므로 <code>부가세 = 공급가액 × 10%</code>, <code>합계금액 = 공급가액 × 1.1</code>입니다. 합계금액에서 거꾸로 계산하실 때는 <code>부가세 ≈ 합계금액 × 10 ÷ 110</code>으로 구할 수 있습니다. 원 미만 처리 방식은 계산기에서 선택하실 수 있습니다.</p>
+          <p class="src">근거: 부가가치세법 제30조(세율 10%) · 확인처: 국가법령정보센터(law.go.kr), 국세청(nts.go.kr)</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="부가가치세">
+        <summary>공급가액과 합계금액 중 어느 금액을 입력해야 하나요?</summary>
+        <div class="faq-body">
+          <p>견적서에 ‘부가세 별도’라고 되어 있다면 공급가액 기준, 카드 결제금액이나 영수증처럼 이미 부가세가 포함된 금액이라면 합계금액 기준으로 입력하시면 됩니다. 다만 거래 당사자 간 약정이나 사업자 유형(간이과세자 등)에 따라 실제 청구되는 부가세 상당액이 달라질 수 있으므로, 계약서 문구를 함께 확인해 주세요.</p>
+          <p class="src">확인처: 국세청 홈택스(hometax.go.kr) 세금계산서 안내 · 계약 해석이 필요한 경우 세무사·법무 검토 권고</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="부가가치세">
+        <summary>부가세 신고·납부 기한은 언제인가요?</summary>
+        <div class="faq-body">
+          <p>개인 일반과세자는 1기(1.1~6.30) 확정신고를 7월 25일까지, 2기(7.1~12.31) 확정신고를 다음 해 1월 25일까지 합니다. 법인사업자는 예정신고를 포함해 연 4회 신고하며, 간이과세자는 원칙적으로 연 1회 다음 해 1월 25일까지 신고합니다. 기한 말일이 토요일·공휴일이면 그 다음 영업일이 기한이 되며(국세기본법 제5조), 2026년 1기 확정신고는 7월 25일이 토요일이어서 7월 27일(월)까지였습니다.</p>
+          <p>사업자 유형(과세 유형 전환, 예정고지 대상 등)에 따라 예외가 있으므로 본인의 신고 대상과 기한은 홈택스에서 확인해 주세요.</p>
+          <p class="src">확인처: 국세청 홈택스(hometax.go.kr), 국세청 보도참고자료(2026.7.2., ‘7월 27일까지 부가가치세 확정신고’) · 일정·요건 세부는 보조 출처(세무 정보 사이트) 교차 확인 후 정리했으며, 원문 확인 필요</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="대출·이자">
+        <summary>원리금균등상환과 원금균등상환은 무엇이 다른가요?</summary>
+        <div class="faq-body">
+          <p>원리금균등상환은 매회 납입액(원금+이자)이 같아 상환 계획을 세우기 쉽고, 초기에는 이자 비중이 큽니다. 원금균등상환은 매회 갚는 원금이 같고 이자는 잔액이 줄면서 감소하므로 납입액이 점차 줄어듭니다. 동일한 조건이라면 원금균등상환의 총이자가 더 적은 경향이 있으나, 초기 납입 부담은 더 큽니다. 만기일시상환은 기간 중 이자만 납부하고 원금은 만기에 갚는 방식입니다.</p>
+          <p class="src">확인처: 금융감독원 금융소비자 정보포털 ‘파인’(fine.fss.or.kr) · 계산기의 상환 스케줄 탭에서 두 방식을 직접 비교해 보실 수 있습니다.</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="대출·이자">
+        <summary>중도상환수수료는 어떻게 확인하나요?</summary>
+        <div class="faq-body">
+          <p>약정 만기 전에 대출금을 갚으면 중도상환수수료가 부과될 수 있습니다. 부과 여부, 요율, 면제 기간과 조건은 상품과 약정에 따라 다르므로 대출 약정서와 해당 금융기관의 상품설명서를 확인하셔야 합니다. 이 페이지의 계산기는 중도상환수수료를 반영하지 않습니다.</p>
+          <p class="src">확인처: 대출 약정서 · 금융감독원 금융소비자 정보포털 ‘파인’(fine.fss.or.kr)</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="대출·이자">
+        <summary>계산 결과가 은행 안내와 다른 이유는 무엇인가요?</summary>
+        <div class="faq-body">
+          <p>이 계산기는 월 이자를 ‘잔액 × 연이율 ÷ 12’(원 미만 절사)로 단순화합니다. 실제로는 실제 경과일수(예: 일할 계산), 금리 변동 주기, 원 미만 처리 방식, 수수료와 인지세 등 부대비용 때문에 금액이 달라질 수 있습니다. 최종 금액은 금융기관의 상환 스케줄을 기준으로 확인해 주세요.</p>
+          <p class="src">확인처: 해당 금융기관의 대출 약정서·상환 스케줄</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="환율">
+        <summary>환율은 어디에서 확인하고, 왜 직접 입력해야 하나요?</summary>
+        <div class="faq-body">
+          <p>이 페이지는 외부 서버와 통신하지 않는 단일 파일이므로 실시간 시세를 가져오지 않습니다. 기준이 되는 환율은 한국은행 경제통계시스템(ECOS)이나 거래하시는 금융기관의 고시 환율을 확인해 입력해 주세요. 실제 환전·송금에는 매매기준율에 수수료(스프레드)가 더해지므로, 계산기의 수수료율 칸에 적용 비율을 입력하시면 보다 현실적인 금액을 보실 수 있습니다.</p>
+          <p class="src">확인처: 한국은행 경제통계시스템 ECOS(ecos.bok.or.kr), 거래 금융기관 고시 환율</p>
+        </div>
+      </details>
+
+      <details class="faq" data-cat="이용 안내">
+        <summary>입력한 금액이 저장되거나 외부로 전송되나요?</summary>
+        <div class="faq-body">
+          <p>아니요. 모든 계산은 사용 중인 브라우저 안에서만 처리되며 서버로 전송하거나 저장하지 않습니다. 페이지를 새로고침하면 입력값이 초기화됩니다.</p>
+        </div>
+      </details>
+
+      <!-- 교육용 샘플 자료 기반 FAQ 10선 (카테고리 표시) -->
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">부가가치세</span>부가가치세는 무엇이고 어떻게 계산하나요?</span></summary>
+        <div class="faq-body">
+          <p>상품이나 서비스를 거래할 때 붙는 세금이며, 일반 세율은 공급가액의 10%입니다.</p>
+          <p><b>계산 예시</b> 공급가액 300,000원 → 부가세 <code>300,000 × 10% = 30,000원</code>, 합계금액 <code>300,000 + 30,000 = 330,000원</code></p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">부가가치세</span>영수증 금액이 ‘부가세 포함’인지 ‘별도’인지 왜 먼저 확인해야 하나요?</span></summary>
+        <div class="faq-body">
+          <p>포함 금액에 다시 10%를 더하면 금액이 과다 계산되기 때문입니다. 포함 금액에서 공급가액을 구할 때는 <code>합계금액 ÷ 1.1</code>을 사용합니다.</p>
+          <p><b>계산 예시</b> 합계 220,000원 → 공급가액 <code>220,000 ÷ 1.1 = 200,000원</code>, 부가세 <code>20,000원</code>. 반대로 포함 금액 110,000원에 10%를 또 더하면 121,000원이 되어 11,000원이 과다 계산됩니다.</p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">대출·이자</span>대출 이자는 어떻게 계산하나요?</span></summary>
+        <div class="faq-body">
+          <p>가장 단순한 연이자는 <code>원금 × 연이율</code>입니다. 실제 대출은 상환 방식과 중도상환 조건에 따라 달라집니다.</p>
+          <p><b>계산 예시</b> 원금 2,000만 원, 연 3% → <code>20,000,000 × 3% = 600,000원</code>(연 60만 원)</p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">대출·이자</span>원리금균등과 원금균등은 무엇이 다른가요?</span></summary>
+        <div class="faq-body">
+          <p>원리금균등은 매월 납입액이 같고 총이자는 상대적으로 많습니다. 원금균등은 초기 납입액이 크고 점차 줄며 총이자는 상대적으로 적습니다.</p>
+          <p><b>계산 예시(자료 밖 보충 계산)</b> 1,200만 원, 연 5%, 12개월 → 원금균등: 첫 달 <code>1,000,000 + 12,000,000 × 5% ÷ 12 = 1,050,000원</code>, 마지막 달 약 1,004,167원, 총이자 325,000원 / 원리금균등: 매월 약 1,027,290원, 총이자 약 327,477원. 기간이 길수록 차이가 커집니다.</p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.1(방식 비교) · 계산 예시는 자료에 없는 보충 계산이며, 실제 상품 조건은 약관 확인 필요 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">환율</span>환율이 오르면 무슨 일이 생기나요?</span></summary>
+        <div class="faq-body">
+          <p>환율은 외화 1단위를 원화로 바꿀 때의 가격이므로, 환율이 오르면 같은 외화를 받는 데 더 많은 원화가 필요합니다. 원화 환산액은 <code>외화 금액 × 환율</code>입니다. 매매기준율·현찰 살 때·현찰 팔 때는 각각 다르고, 해외 결제에는 카드사 환율과 수수료가 추가될 수 있습니다.</p>
+          <p><b>계산 예시(환율은 가정)</b> 100달러, 환율 1,350원 → <code>100 × 1,350 = 135,000원</code>. 환율이 1,400원으로 오르면 <code>140,000원</code>(5,000원 증가)</p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">연말정산</span>연말정산은 무엇인가요?</span></summary>
+        <div class="faq-body">
+          <p>1년 동안 낸 세금과 실제 내야 할 세금을 정산하는 절차입니다. 많이 냈으면 돌려받고, 적게 냈으면 추가로 냅니다. 공제 항목은 개인 상황에 따라 다르므로 증빙을 미리 챙겨 두는 것이 중요합니다.</p>
+          <p><b>계산 예시(가정)</b> 이미 낸 세금 150만 원, 실제 내야 할 세금 130만 원 → <code>1,500,000 − 1,300,000 = 200,000원 환급</code></p>
+          <p><strong>전문가 상담 권장:</strong> 개인별 세액 계산, 공제 가능 여부, 세무 신고 판단은 상황에 따라 달라지므로 세무 전문가 또는 관할 세무서에 문의해 주세요.</p>
+          <p class="src">근거: 교육용 샘플 자료 「생활 재무·세금 기초 가이드」(SAMPLE-FA-001, 개정 2026.11) p.2 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">재무제표·지표</span>영업이익과 당기순이익은 어떻게 다른가요?</span></summary>
+        <div class="faq-body">
+          <p>영업이익은 매출액에서 원가와 판매·관리비를 뺀 본업의 이익이고, 당기순이익은 영업이익에서 이자·세금 등을 모두 빼고 최종적으로 남은 이익입니다. 영업이익률은 <code>영업이익 ÷ 매출액 × 100</code>, 순이익률은 <code>당기순이익 ÷ 매출액 × 100</code>입니다.</p>
+          <p><b>계산 예시(가정)</b> 매출 10억 원, 영업이익 1억 원, 당기순이익 7천만 원 → 영업이익률 <code>100,000,000 ÷ 1,000,000,000 × 100 = 10%</code>, 순이익률 <code>7%</code></p>
+          <p class="src">근거: 교육용 샘플 자료 「재무 용어집」(SAMPLE-FA-002, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">재무제표·지표</span>자산·부채·자본과 부채비율은 무엇인가요?</span></summary>
+        <div class="faq-body">
+          <p>자본은 자산에서 부채를 뺀 주주의 몫입니다. 부채비율(<code>부채 ÷ 자본 × 100</code>)은 자기 돈 대비 빌린 돈의 비중으로 낮을수록 안정적이며, 유동비율(<code>유동자산 ÷ 유동부채 × 100</code>)은 1년 안에 갚을 돈을 감당할 수 있는지 보여 줍니다.</p>
+          <p><b>계산 예시(가정)</b> 자산 20억 원, 부채 8억 원 → 자본 12억 원, 부채비율 <code>8 ÷ 12 × 100 ≒ 66.7%</code>. 유동자산 5억 원, 유동부채 4억 원이면 유동비율 <code>5 ÷ 4 × 100 = 125%</code></p>
+          <p class="src">근거: 교육용 샘플 자료 「재무 용어집」(SAMPLE-FA-002, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">재무제표·지표</span>재무제표 3종은 무엇이며, 이익이 나는데 왜 현금이 부족할 수 있나요?</span></summary>
+        <div class="faq-body">
+          <p>재무상태표는 특정 시점의 자산·부채 상태, 손익계산서는 일정 기간의 수익과 비용, 현금흐름표는 실제 현금이 들어오고 나간 흐름을 보여 줍니다. 이익이 나도 현금이 부족할 수 있습니다.</p>
+          <p><b>계산 예시(가정)</b> 외상 매출 1,000만 원, 비용 700만 원은 현금으로 지급, 대금은 아직 미수 → 손익계산서상 이익 <code>10,000,000 − 7,000,000 = 3,000,000원</code>이지만 실제 현금은 700만 원 감소</p>
+          <p class="src">근거: 교육용 샘플 자료 「재무 용어집」(SAMPLE-FA-002, 개정 2026.11) p.1 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary><span class="faq-q"><span class="faq-cat">증빙</span>세금계산서와 간이영수증은 어떻게 다른가요?</span></summary>
+        <div class="faq-body">
+          <p>세금계산서는 사업자 간 거래에서 발행하는 공식 증빙이고, 계산서는 부가세가 면세되는 거래에 발행합니다. 적격 증빙은 세금계산서·계산서·신용카드 매출전표·현금영수증이며, 간이영수증은 적격 증빙이 아니어서 일정 금액 이상에서는 인정되지 않을 수 있습니다.</p>
+          <p><b>계산 예시</b> 세금계산서 합계 550,000원 → 공급가액 <code>550,000 ÷ 1.1 = 500,000원</code>, 부가세 <code>50,000원</code></p>
+          <p><strong>전문가 상담 권장:</strong> 증빙 인정 범위와 금액 기준은 관련 법령과 사내 규정에 따릅니다. 처리가 애매한 건은 회계팀 또는 세무 전문가에게 확인해 주세요.</p>
+          <p class="src">근거: 교육용 샘플 자료 「재무 용어집」(SAMPLE-FA-002, 개정 2026.11) p.1~2 · 가상의 교육용 샘플 자료이며 예시 금액은 설명용 가정입니다.</p>
+        </div>
+      </details>
+
+      <div class="empty" id="faq-empty" hidden>검색 결과가 없습니다. 다른 키워드나 분류를 선택해 보세요.</div>
+    </div>
+  </section>
+
+  <!-- ================= 자료실 ================= -->
+  <section id="library" class="section alt" aria-labelledby="library-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Library</p>
+        <h2 id="library-title">공개 가이드 자료실</h2>
+        <p class="lead">세금·금융소비자·금리·공시 분야의 공식 기관 사이트를 모았습니다. 각 링크는 기관의 공식 사이트로 연결되며, 세부 가이드와 최신 개정 내용은 해당 사이트에서 확인해 주세요.</p>
+      </div>
+      <div class="lib" id="lib-list"></div>
+
+      <div class="dl" id="dl" aria-labelledby="dl-title">
+        <h3 class="dl-title" id="dl-title">부서별 안내 자료</h3>
+        <p class="lead">부서별로 정리한 안내 PDF입니다. 다운로드 버튼을 누르면 새 창이 열리지 않고 바로 저장되며, 각 자료는 문서 첫머리에 ‘교육용 샘플 자료’로 표기되어 있습니다.</p>
+        <p class="note" id="dl-file-note" hidden>이 파일을 더블클릭해 여신 경우(file:// 주소) 일부 브라우저는 다운로드 속성을 무시하고 PDF를 같은 탭에서 열 수 있습니다. 웹 서버나 사내 포털에 올려 접속하시면 버튼을 누르는 즉시 한글 파일명으로 저장됩니다.</p>
+        <div class="dl-cols" aria-hidden="true"><span>파일명</span><span>설명</span><span>용량</span><span>다운로드</span></div>
+        <div id="dl-list"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p><strong>재무 계산기 &amp; 용어 사전</strong> · 정보 기준일 2026년 11월 11일</p>
+    <p>본 페이지의 계산 결과와 용어 설명은 참고용입니다. 실제 세액·이자·환전액은 세법, 금융기관 약정, 적용 환율에 따라 달라질 수 있으며, 세무·법률 판단이 필요한 사항은 세무사·법무 검토를 권고드립니다. 특정 매매나 투자에 대한 권유가 아닙니다.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* CALC-CORE:START */
+function roundBy(mode,x){
+  var e=1e-9;
+  if(mode==='floor') return Math.floor(x+e);
+  if(mode==='ceil') return Math.ceil(x-e);
+  return Math.round(x+e);
+}
+function calcVat(o){
+  var supply,vat,total;
+  if(o.mode==='supply'){
+    supply=o.amount;
+    vat=roundBy(o.rounding,supply*o.ratePct/100);
+    total=supply+vat;
+  }else{
+    total=o.amount;
+    vat=roundBy(o.rounding,total*o.ratePct/(100+o.ratePct));
+    supply=total-vat;
+  }
+  return {supply:supply,vat:vat,total:total};
+}
+function calcLoan(o){
+  var P=o.principal,rows=[],bal=P;
+  var interest=function(b){return Math.floor(b*o.ratePct/1200+1e-6);};
+  var months=o.months;
+  var g=o.type==='bullet'?0:Math.min(Math.max(0,Math.floor(o.graceMonths||0)),months-1);
+  var i,j,it,pr,pay;
+  if(o.type==='bullet'){
+    for(i=1;i<=months;i++){
+      it=interest(bal); pr=(i===months)?bal:0; pay=it+pr; bal-=pr;
+      rows.push({n:i,pay:pay,prin:pr,int:it,bal:bal});
+    }
+  }else{
+    for(i=1;i<=g;i++){
+      it=interest(bal);
+      rows.push({n:i,pay:it,prin:0,int:it,bal:bal});
+    }
+    var m=months-g, r=o.ratePct/1200, fixed=0, base=0;
+    if(o.type==='annuity'){
+      fixed=Math.round(r===0?P/m:P*r/(1-Math.pow(1+r,-m)));
+    }else{
+      base=Math.floor(P/m);
+    }
+    for(j=1;j<=m;j++){
+      it=interest(bal);
+      if(j===m){ pr=bal; }
+      else if(o.type==='annuity'){ pr=Math.max(0,Math.min(bal,fixed-it)); }
+      else{ pr=base; }
+      pay=pr+it; bal-=pr;
+      rows.push({n:g+j,pay:pay,prin:pr,int:it,bal:bal});
+    }
+  }
+  var totalInt=0,totalPaid=0;
+  rows.forEach(function(x){totalInt+=x.int;totalPaid+=x.pay;});
+  return {rows:rows,graceMonths:g,totalInterest:totalInt,totalPaid:totalPaid,
+          regularFirst:rows[g].pay,lastPay:rows[rows.length-1].pay,graceInterest:g>0?rows[0].pay:0};
+}
+function calcFx(o){
+  var per=o.rate/o.unit, eff, result;
+  if(o.dir==='toKrw'){ eff=per*(1-o.feePct/100); result=o.amount*eff; }
+  else{ eff=per*(1+o.feePct/100); result=o.amount/eff; }
+  return {result:result,appliedRate:eff*o.unit};
+}
+/* CALC-CORE:END */
+
+/* ---------- helpers ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function fmt(n,maxDec){
+  maxDec=maxDec||0;
+  return new Intl.NumberFormat('ko-KR',{minimumFractionDigits:0,maximumFractionDigits:maxDec}).format(n);
+}
+function won(n){return fmt(n)+'원';}
+function parseNum(s){
+  if(s==null) return NaN;
+  var c=String(s).replace(/,/g,'').trim();
+  if(c===''||c==='.'||c==='-') return NaN;
+  var v=Number(c);
+  return isFinite(v)?v:NaN;
+}
+function trimNum(x){return String(Number(x));}
+function attachNumber(input,decimals){
+  input.addEventListener('input',function(){
+    var raw=input.value, caret=input.selectionStart==null?raw.length:input.selectionStart;
+    var before=raw.slice(0,caret).replace(/[^0-9.]/g,'').length;
+    var cleaned=raw.replace(/[^0-9.]/g,'');
+    if(!decimals){cleaned=cleaned.replace(/\./g,'');}
+    else{var k=cleaned.indexOf('.'); if(k>=0) cleaned=cleaned.slice(0,k+1)+cleaned.slice(k+1).replace(/\./g,'');}
+    var parts=cleaned.split('.'), ip=parts[0].replace(/^0+(?=\d)/,''), fp=parts[1];
+    var out=ip.replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    if(fp!==undefined) out+='.'+fp;
+    input.value=out;
+    if(document.activeElement===input){
+      var pos=0,cnt=0;
+      while(pos<out.length&&cnt<before){ if(/[0-9.]/.test(out.charAt(pos))) cnt++; pos++; }
+      try{input.setSelectionRange(pos,pos);}catch(e){}
+    }
+  });
+}
+function setText(id,t){$(id).textContent=t;}
+function copyText(text,btn){
+  var done=function(){
+    var old=btn.textContent; btn.textContent='복사되었습니다';
+    setTimeout(function(){btn.textContent=old;},1400);
+  };
+  var fallback=function(){
+    var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta); done();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done,fallback);
+  }else{fallback();}
+}
+
+/* ---------- 탭 ---------- */
+var tabs=$$('[role="tab"]');
+function activateTab(id,focus){
+  tabs.forEach(function(t){
+    var on=t.getAttribute('data-tab')===id;
+    t.setAttribute('aria-selected',on?'true':'false');
+    t.tabIndex=on?0:-1;
+    if(on&&focus) t.focus();
+  });
+  $$('[role="tabpanel"]').forEach(function(p){p.hidden=(p.id!=='panel-'+id);});
+}
+tabs.forEach(function(t,idx){
+  t.addEventListener('click',function(){activateTab(t.getAttribute('data-tab'));});
+  t.addEventListener('keydown',function(e){
+    var n=null;
+    if(e.key==='ArrowRight') n=(idx+1)%tabs.length;
+    else if(e.key==='ArrowLeft') n=(idx-1+tabs.length)%tabs.length;
+    else if(e.key==='Home') n=0;
+    else if(e.key==='End') n=tabs.length-1;
+    if(n!==null){e.preventDefault();activateTab(tabs[n].getAttribute('data-tab'),true);}
+  });
+});
+
+/* ---------- 부가세 ---------- */
+var vatLast='';
+function vatMode(){return $('input[name="vat-mode"]:checked').value;}
+function renderVat(){
+  var mode=vatMode();
+  setText('#vat-amount-label',mode==='supply'?'공급가액 (원)':'합계금액 (원, 부가세 포함)');
+  var amount=parseNum($('#vat-amount').value), rate=parseNum($('#vat-rate').value);
+  var msg='', ok=true;
+  if(isNaN(amount)){ok=false;msg='';}
+  else if(isNaN(rate)||rate<0||rate>100){ok=false;msg='세율은 0~100 사이의 숫자로 입력해 주세요.';}
+  if(!ok){
+    ['#vat-supply','#vat-tax','#vat-total'].forEach(function(s){setText(s,'—');});
+    setText('#vat-formula','금액을 입력하시면 계산식이 표시됩니다.');
+    setText('#vat-msg',msg); vatLast=''; return;
+  }
+  var r=calcVat({mode:mode,amount:amount,ratePct:rate,rounding:$('#vat-round').value});
+  setText('#vat-supply',won(r.supply)); setText('#vat-tax',won(r.vat)); setText('#vat-total',won(r.total));
+  var rs=trimNum(rate);
+  setText('#vat-formula',mode==='supply'
+    ? '부가세 = 공급가액 '+fmt(r.supply)+' × '+rs+'% = '+fmt(r.vat)+'원  →  합계금액 = '+fmt(r.supply)+' + '+fmt(r.vat)+' = '+fmt(r.total)+'원'
+    : '부가세 = 합계금액 '+fmt(r.total)+' × '+rs+' ÷ '+trimNum(100+rate)+' = '+fmt(r.vat)+'원  →  공급가액 = '+fmt(r.total)+' − '+fmt(r.vat)+' = '+fmt(r.supply)+'원');
+  setText('#vat-msg','');
+  vatLast='[부가세 계산] 공급가액 '+won(r.supply)+' / 부가세 '+won(r.vat)+' / 합계금액 '+won(r.total)+' (세율 '+rs+'%)';
+}
+function vatDefaults(){
+  $('#vat-m1').checked=true; $('#vat-amount').value='1,000,000'; $('#vat-rate').value='10'; $('#vat-round').value='round'; renderVat();
+}
+
+/* ---------- 대출 ---------- */
+var loanLast='';
+function renderLoan(){
+  var type=$('#loan-type').value, unit=$('#loan-unit').value;
+  var graceEl=$('#loan-grace');
+  graceEl.disabled=(type==='bullet');
+  var P=parseNum($('#loan-principal').value), rate=parseNum($('#loan-rate').value), term=parseNum($('#loan-term').value);
+  var grace=parseNum(graceEl.value); if(isNaN(grace)) grace=0;
+  var months=unit==='year'?Math.round(term*12):Math.round(term);
+  var msg='', ok=true;
+  if(isNaN(P)||isNaN(rate)||isNaN(term)){ok=false;}
+  else if(P<=0){ok=false;msg='대출 원금은 0보다 커야 합니다.';}
+  else if(rate<0||rate>100){ok=false;msg='연 이자율은 0~100 사이로 입력해 주세요.';}
+  else if(months<1||months>600){ok=false;msg='대출 기간은 1~600개월 범위로 입력해 주세요.';}
+  else if(type!=='bullet'&&grace>=months){ok=false;msg='거치기간은 대출 기간보다 짧아야 합니다.';}
+  if(!ok){
+    ['#loan-main-v','#loan-int','#loan-total','#loan-pp','#loan-ip'].forEach(function(s){setText(s,'—');});
+    setText('#loan-main-sub',''); setText('#loan-formula','조건을 입력하시면 계산식이 표시됩니다.');
+    setText('#loan-msg',msg); $('#loan-rows').textContent=''; setText('#loan-schedule-sum','상환 스케줄 보기');
+    var b0=$$('#loan-bar span'); b0[0].style.width='0'; b0[1].style.width='0'; loanLast=''; return;
+  }
+  var r=calcLoan({principal:P,ratePct:rate,months:months,graceMonths:grace,type:type});
+  var mainK,mainV,sub='';
+  if(type==='annuity'){
+    mainK='월 납입액 (원리금)'; mainV=r.regularFirst;
+    sub='마지막 회차 '+won(r.lastPay);
+    if(r.graceMonths>0) sub='거치 중 월 이자 '+won(r.graceInterest)+' · '+sub;
+  }else if(type==='principal'){
+    mainK='첫 회 납입액 (최대)'; mainV=r.regularFirst; sub='마지막 회차 '+won(r.lastPay);
+    if(r.graceMonths>0) sub='거치 중 월 이자 '+won(r.graceInterest)+' · '+sub;
+  }else{
+    mainK='월 이자'; mainV=r.rows[0].pay; sub='만기 상환액 '+won(r.lastPay);
+  }
+  setText('#loan-main-k',mainK); setText('#loan-main-v',won(mainV)); setText('#loan-main-sub',sub);
+  setText('#loan-int',won(r.totalInterest)); setText('#loan-total',won(r.totalPaid));
+  var ip=r.totalPaid>0?r.totalInterest/r.totalPaid*100:0, pp=100-ip;
+  setText('#loan-pp',pp.toFixed(1)+'%'); setText('#loan-ip',ip.toFixed(1)+'%');
+  var bars=$$('#loan-bar span'); bars[0].style.width=pp+'%'; bars[1].style.width=ip+'%';
+  $('#loan-bar').setAttribute('aria-label','원금 '+pp.toFixed(1)+'%, 이자 '+ip.toFixed(1)+'%');
+  var typeName={annuity:'원리금균등상환',principal:'원금균등상환',bullet:'만기일시상환'}[type];
+  setText('#loan-formula',typeName+' · 원금 '+won(P)+' · 연 '+trimNum(rate)+'% · '+months+'개월'+(r.graceMonths>0?' (거치 '+r.graceMonths+'개월)':'')+
+    '  →  총 이자 '+won(r.totalInterest)+' (원금 대비 '+(r.totalInterest/P*100).toFixed(2)+'%)');
+  setText('#loan-msg','');
+  var tb=$('#loan-rows'), frag=document.createDocumentFragment();
+  r.rows.forEach(function(x){
+    var tr=document.createElement('tr');
+    [x.n,fmt(x.pay),fmt(x.prin),fmt(x.int),fmt(x.bal)].forEach(function(v){
+      var td=document.createElement('td'); td.textContent=v; tr.appendChild(td);
+    });
+    frag.appendChild(tr);
+  });
+  tb.textContent=''; tb.appendChild(frag);
+  setText('#loan-schedule-sum','상환 스케줄 보기 ('+r.rows.length+'회차)');
+  loanLast='[대출 이자 계산] '+typeName+' / 원금 '+won(P)+' / 연 '+trimNum(rate)+'% / '+months+'개월 → '+mainK+' '+won(mainV)+' / 총 이자 '+won(r.totalInterest)+' / 총 상환액 '+won(r.totalPaid);
+}
+function loanDefaults(){
+  $('#loan-principal').value='100,000,000'; $('#loan-rate').value='4.5'; $('#loan-term').value='5';
+  $('#loan-unit').value='year'; $('#loan-type').value='annuity'; $('#loan-grace').value='0'; renderLoan();
+}
+
+/* ---------- 환율 ---------- */
+var CUR={USD:{unit:1,dec:2},JPY:{unit:100,dec:0},EUR:{unit:1,dec:2},CNY:{unit:1,dec:2},GBP:{unit:1,dec:2},CUSTOM:{unit:1,dec:2}};
+var fxLast='';
+function fxCode(){
+  var c=$('#fx-cur').value;
+  if(c==='CUSTOM'){var t=$('#fx-custom').value.trim().toUpperCase(); return t||'외화';}
+  return c;
+}
+function renderFx(){
+  var cur=$('#fx-cur').value, code=fxCode(), dir=$('input[name="fx-dir"]:checked').value;
+  $('#fx-custom-wrap').hidden=(cur!=='CUSTOM');
+  setText('#fx-amount-label',dir==='toKrw'?'외화 금액':'원화 금액');
+  setText('#fx-amount-suffix',dir==='toKrw'?code:'원');
+  var rate=parseNum($('#fx-rate').value), amount=parseNum($('#fx-amount').value), fee=parseNum($('#fx-fee').value);
+  if(isNaN(fee)) fee=0;
+  var unit=Number($('#fx-unit').value), msg='', ok=true;
+  if(isNaN(rate)||isNaN(amount)){ok=false;}
+  else if(rate<=0){ok=false;msg='환율은 0보다 커야 합니다.';}
+  else if(fee<0||fee>=100){ok=false;msg='수수료율은 0 이상 100 미만으로 입력해 주세요.';}
+  if(!ok){
+    setText('#fx-result','—'); setText('#fx-applied','—');
+    setText('#fx-formula','환율과 금액을 입력하시면 계산식이 표시됩니다.');
+    setText('#fx-msg',msg); fxLast=''; return;
+  }
+  var r=calcFx({dir:dir,amount:amount,rate:rate,unit:unit,feePct:fee});
+  var dec=CUR[cur].dec, unitTxt=(unit===1?'1':fmt(unit))+code;
+  var resText=dir==='toKrw'?won(Math.round(r.result)):fmt(Math.round(r.result*Math.pow(10,dec))/Math.pow(10,dec),dec)+' '+code;
+  var amtText=dir==='toKrw'?fmt(amount,8)+' '+code:won(amount);
+  setText('#fx-result',resText);
+  setText('#fx-applied',fmt(r.appliedRate,4)+'원 / '+unitTxt);
+  setText('#fx-formula',dir==='toKrw'
+    ? amtText+' × ('+fmt(rate,4)+' ÷ '+fmt(unit)+') × (1 − '+trimNum(fee)+'%) = '+resText
+    : amtText+' ÷ [('+fmt(rate,4)+' ÷ '+fmt(unit)+') × (1 + '+trimNum(fee)+'%)] = '+resText);
+  setText('#fx-msg','');
+  fxLast='[환율 환산] '+amtText+' → '+resText+' (입력 환율 '+fmt(rate,4)+'원/'+unitTxt+', 수수료 '+trimNum(fee)+'%)';
+}
+function fxDefaults(){
+  $('#fx-d1').checked=true; $('#fx-cur').value='USD'; $('#fx-unit').value='1';
+  $('#fx-rate').value=''; $('#fx-amount').value='1,000'; $('#fx-fee').value='0'; $('#fx-custom').value=''; renderFx();
+}
+
+/* ---------- 계산기 이벤트 ---------- */
+attachNumber($('#vat-amount'),false); attachNumber($('#vat-rate'),true);
+attachNumber($('#loan-principal'),false); attachNumber($('#loan-rate'),true); attachNumber($('#loan-term'),false); attachNumber($('#loan-grace'),false);
+attachNumber($('#fx-rate'),true); attachNumber($('#fx-amount'),true); attachNumber($('#fx-fee'),true);
+['#vat-amount','#vat-rate','#vat-round','#vat-m1','#vat-m2'].forEach(function(s){
+  $(s).addEventListener('input',renderVat); $(s).addEventListener('change',renderVat);
+});
+['#loan-principal','#loan-rate','#loan-term','#loan-unit','#loan-type','#loan-grace'].forEach(function(s){
+  $(s).addEventListener('input',renderLoan); $(s).addEventListener('change',renderLoan);
+});
+['#fx-rate','#fx-amount','#fx-fee','#fx-unit','#fx-custom','#fx-d1','#fx-d2'].forEach(function(s){
+  $(s).addEventListener('input',renderFx); $(s).addEventListener('change',renderFx);
+});
+$('#fx-cur').addEventListener('change',function(){
+  $('#fx-unit').value=String(CUR[$('#fx-cur').value].unit); renderFx();
+});
+$('#fx-swap').addEventListener('click',function(){
+  var to=$('#fx-d1').checked; (to?$('#fx-d2'):$('#fx-d1')).checked=true; renderFx();
+});
+$('#vat-reset').addEventListener('click',vatDefaults);
+$('#loan-reset').addEventListener('click',loanDefaults);
+$('#fx-reset').addEventListener('click',fxDefaults);
+$('#vat-copy').addEventListener('click',function(){ if(vatLast) copyText(vatLast,this); });
+$('#loan-copy').addEventListener('click',function(){ if(loanLast) copyText(loanLast,this); });
+$('#fx-copy').addEventListener('click',function(){ if(fxLast) copyText(fxLast,this); });
+vatDefaults(); loanDefaults(); fxDefaults();
+
+/* ---------- 용어 사전 ---------- */
+var CATS=['세무','대출·금융','주식·평가','회계·기초','환율'];
+var TERMS=[
+ {c:'세무',t:'부가가치세',a:['VAT','부가세'],d:'재화·용역이 공급되는 단계마다 생기는 부가가치에 부과되는 간접세입니다. 일반과세 세율은 10%이며(부가가치세법 제30조), 사업자는 매출세액에서 매입세액을 공제한 금액을 납부합니다.'},
+ {c:'세무',t:'공급가액',a:[],d:'부가가치세를 제외한 거래 금액입니다. 세금계산서에서 세액 계산의 기준이 되는 금액입니다.'},
+ {c:'세무',t:'공급대가',a:[],d:'공급가액에 부가가치세를 더한 금액, 즉 부가세가 포함된 거래 총액을 말합니다.'},
+ {c:'세무',t:'매출세액·매입세액',a:[],d:'매출세액은 공급가액 합계에 세율을 곱한 금액이고, 매입세액은 매입 과정에서 부담한 부가세입니다. 납부세액의 기본 구조는 ‘매출세액 − 매입세액’이며, 경감·공제세액과 가산세 등은 별도로 조정됩니다.'},
+ {c:'세무',t:'세금계산서',a:['전자세금계산서'],d:'사업자가 재화·용역을 공급할 때 공급가액과 부가가치세액 등을 기재하여 발급하는 거래 증빙입니다. 매입세액 공제의 주된 근거 서류입니다.'},
+ {c:'세무',t:'영세율·면세',a:[],d:'영세율은 세율 0%를 적용하되 매입세액을 공제·환급받을 수 있는 제도(수출 등)이고, 면세는 부가세 과세 대상에서 제외되어 관련 매입세액을 공제받을 수 없는 제도입니다.'},
+ {c:'세무',t:'간이과세자',a:[],d:'규모가 작은 개인사업자에게 적용되는 간편 과세 방식입니다. 적용 기준금액과 업종별 부가가치율은 개정될 수 있으므로 국세청 안내에서 현행 기준을 확인하셔야 합니다.'},
+ {c:'세무',t:'과세표준',a:[],d:'세율을 곱하여 세액을 계산하는 기준이 되는 금액입니다.'},
+ {c:'세무',t:'양도소득세',a:['양도세'],d:'자산을 양도하여 발생한 소득(양도차익)에 부과되는 소득세입니다. 주식은 대주주 해당 여부, 상장·비상장 구분 등에 따라 과세 방식이 달라지므로 세무사 검토를 권고드립니다.'},
+ {c:'세무',t:'증여세·상속세',a:[],d:'증여세는 재산을 무상으로 이전받은 사람에게, 상속세는 사망으로 재산을 물려받는 상속인 등에게 부과됩니다. 상장주식을 포함한 재산의 평가 방법은 법령에 별도 규정이 있어 현행 규정 확인과 세무사 검토를 권고드립니다.'},
+ {c:'세무',t:'금융소득종합과세',a:[],d:'이자·배당소득 등 금융소득의 합계가 법정 기준금액을 넘으면 다른 종합소득과 합산하여 누진세율로 과세하는 제도입니다. 기준금액과 합산 범위는 국가법령정보센터·국세청에서 현행 기준을 확인하셔야 합니다.'},
+ {c:'세무',t:'배당소득',a:[],d:'법인이 이익을 주주에게 배분할 때 주주가 받는 소득입니다. 금융소득 합계액에 따라 종합과세 대상이 될 수 있습니다.'},
+
+ {c:'대출·금융',t:'원리금균등상환',a:['원리금 균등'],d:'매회 납입하는 원금과 이자의 합계가 동일한 상환 방식입니다. 초기에는 이자 비중이 크고 시간이 지날수록 원금 비중이 커집니다.'},
+ {c:'대출·금융',t:'원금균등상환',a:['원금 균등'],d:'매회 갚는 원금이 동일하고 이자는 잔액 감소에 따라 줄어드는 방식입니다. 납입액이 점차 감소하며, 동일 조건의 원리금균등상환보다 총이자가 적은 경향이 있습니다.'},
+ {c:'대출·금융',t:'만기일시상환',a:[],d:'대출 기간 중에는 이자만 납부하고 원금은 만기에 한꺼번에 상환하는 방식입니다.'},
+ {c:'대출·금융',t:'거치기간',a:[],d:'원금 상환 없이 이자만 납부하는 기간입니다. 거치기간 이후 남은 기간 동안 원금을 나누어 상환합니다.'},
+ {c:'대출·금융',t:'중도상환수수료',a:[],d:'약정 만기 전에 대출금을 상환할 때 부과될 수 있는 수수료입니다. 부과 여부·요율·면제 조건은 약정에 따라 다르므로 약정서 확인이 필요합니다.'},
+ {c:'대출·금융',t:'LTV',a:['담보인정비율','Loan to Value'],d:'담보가치 대비 대출금의 비율(대출금 ÷ 담보가치)입니다. 규제 비율은 금융당국의 최신 발표를 확인하셔야 합니다.'},
+ {c:'대출·금융',t:'DSR',a:['총부채원리금상환비율'],d:'연간 전체 대출의 원리금 상환액을 연소득으로 나눈 비율입니다. 차주의 상환 능력을 평가하는 지표로 쓰입니다.'},
+ {c:'대출·금융',t:'DTI',a:['총부채상환비율'],d:'주택담보대출의 연간 원리금 상환액과 기타 대출의 연간 이자 상환액의 합계를 연소득으로 나눈 비율입니다.'},
+ {c:'대출·금융',t:'기준금리',a:['정책금리'],d:'한국은행 금융통화위원회가 결정하는 정책금리로, 시장금리와 대출·예금 금리에 영향을 줍니다. 현재 수준은 한국은행에서 확인하셔야 합니다.'},
+ {c:'대출·금융',t:'코픽스',a:['COFIX'],d:'은행연합회가 공시하는 은행 자금조달비용지수로, 변동금리 대출의 기준금리로 활용됩니다.'},
+ {c:'대출·금융',t:'고정금리·변동금리',a:[],d:'고정금리는 약정 기간 동안 금리가 동일하고, 변동금리는 기준금리 변동에 따라 일정 주기로 조정됩니다.'},
+ {c:'대출·금융',t:'실효금리',a:['APR','실질 부담 금리'],d:'명시된 이자뿐 아니라 수수료 등 부대비용까지 반영하여 계산한 실질적인 금리 부담입니다.'},
+ {c:'대출·금융',t:'단리·복리',a:[],d:'단리는 원금에만 이자가 붙고, 복리는 발생한 이자에도 다시 이자가 붙는 방식입니다.'},
+
+ {c:'주식·평가',t:'담보비율',a:['담보유지비율'],d:'담보로 맡긴 주식 등의 평가액을 대출금과 비교하여 관리하는 비율입니다. 산식과 유지 기준은 금융기관 약정에 따라 다르므로 약정서 확인이 필요합니다.'},
+ {c:'주식·평가',t:'추가담보',a:['마진콜'],d:'주가 하락 등으로 담보비율이 기준 아래로 내려갈 때 금융기관이 담보 추가 제공 또는 일부 상환을 요구하는 것입니다.'},
+ {c:'주식·평가',t:'반대매매',a:[],d:'추가담보 요구 등에 응하지 않을 때 약정에 따라 담보 주식을 처분하여 대출금을 회수하는 절차입니다.'},
+ {c:'주식·평가',t:'평가손익',a:[],d:'보유 자산의 현재 평가액과 취득가액의 차이입니다. 매도 전에는 실현되지 않은 손익입니다.'},
+ {c:'주식·평가',t:'시가총액',a:[],d:'발행주식 총수에 주가를 곱한 금액으로, 기업의 시장 평가 규모를 나타냅니다.'},
+ {c:'주식·평가',t:'배당수익률',a:[],d:'주당 배당금을 주가로 나눈 비율입니다.'},
+ {c:'주식·평가',t:'대주주',a:[],d:'지분율 또는 보유금액이 법령상 기준 이상인 주주입니다. 양도소득세·공시 등 목적에 따라 기준이 다르므로 현행 법령 확인과 세무사·법무 검토를 권고드립니다.'},
+
+ {c:'회계·기초',t:'유동비율',a:[],d:'유동자산을 유동부채로 나눈 비율로, 단기 지급능력을 보여 주는 지표입니다.'},
+ {c:'회계·기초',t:'부채비율',a:[],d:'부채총계를 자기자본으로 나눈 비율로, 재무구조의 안정성을 보는 지표입니다.'},
+ {c:'회계·기초',t:'감가상각',a:[],d:'유형자산의 취득원가를 사용 가능한 기간(내용연수)에 걸쳐 비용으로 배분하는 회계 처리입니다.'},
+ {c:'회계·기초',t:'현금흐름',a:['Cash Flow'],d:'일정 기간 동안의 현금 유입과 유출입니다. 영업·투자·재무 활동으로 구분하여 살펴봅니다.'},
+ {c:'회계·기초',t:'명목금리·실질금리',a:[],d:'명목금리는 표시된 금리이고, 실질금리는 명목금리에서 물가상승률을 차감한 값(근사치)으로 구매력 기준의 수익·비용을 나타냅니다.'},
+
+ {c:'환율',t:'매매기준율',a:['기준환율'],d:'금융기관이 고객과 외환을 거래할 때 기준이 되는 환율입니다. 여기에 수수료(스프레드)가 더해지거나 차감되어 실제로 사고파는 환율이 정해집니다.'},
+ {c:'환율',t:'스프레드',a:['환전 수수료'],d:'사는 환율과 파는 환율의 차이, 또는 기준 환율에 붙는 마진입니다. 환전 비용을 좌우하는 핵심 요소입니다.'},
+ {c:'환율',t:'전신환율',a:['TTS','TTB'],d:'송금 거래에 적용되는 환율입니다. TTS는 금융기관이 외화를 파는 환율, TTB는 외화를 사는 환율을 뜻합니다.'},
+ {c:'환율',t:'현찰 환율',a:[],d:'외화 현금을 사고팔 때 적용되는 환율로, 일반적으로 전신환율보다 스프레드가 큽니다.'}
+];
+var CHO=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+function chosung(s){
+  var o='';
+  for(var i=0;i<s.length;i++){
+    var c=s.charCodeAt(i);
+    o+= (c>=0xAC00&&c<=0xD7A3)?CHO[Math.floor((c-0xAC00)/588)]:s.charAt(i);
+  }
+  return o.replace(/\s+/g,'');
+}
+TERMS.forEach(function(x){
+  x.hay=(x.t+' '+x.a.join(' ')+' '+x.d).toLowerCase();
+  x.cho=chosung(x.t+' '+x.a.join(' '));
+});
+var gState={q:'',cat:'전체'};
+function hl(text,words){
+  var frag=document.createDocumentFragment();
+  if(!words.length){frag.appendChild(document.createTextNode(text));return frag;}
+  var low=text.toLowerCase(), marks=[];
+  words.forEach(function(w){
+    var from=0,k;
+    while((k=low.indexOf(w,from))>-1){marks.push([k,k+w.length]);from=k+w.length;}
+  });
+  marks.sort(function(a,b){return a[0]-b[0];});
+  var merged=[];
+  marks.forEach(function(m){
+    var l=merged[merged.length-1];
+    if(l&&m[0]<=l[1]) l[1]=Math.max(l[1],m[1]); else merged.push([m[0],m[1]]);
+  });
+  var pos=0;
+  merged.forEach(function(m){
+    if(m[0]>pos) frag.appendChild(document.createTextNode(text.slice(pos,m[0])));
+    var mk=document.createElement('mark'); mk.textContent=text.slice(m[0],m[1]); frag.appendChild(mk);
+    pos=m[1];
+  });
+  if(pos<text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+  return frag;
+}
+function renderGlossary(){
+  var q=gState.q.trim().toLowerCase(), isCho=/^[ㄱ-ㅎ\s]+$/.test(q)&&q.replace(/\s/g,'')!=='';
+  var words=isCho?[]:q.split(/\s+/).filter(Boolean);
+  var qc=q.replace(/\s+/g,'');
+  var list=TERMS.filter(function(x){
+    if(gState.cat!=='전체'&&x.c!==gState.cat) return false;
+    if(!q) return true;
+    if(isCho) return x.cho.indexOf(qc)>-1;
+    return words.every(function(w){return x.hay.indexOf(w)>-1;});
+  });
+  var box=$('#g-list'); box.textContent='';
+  var frag=document.createDocumentFragment();
+  list.forEach(function(x){
+    var art=document.createElement('article'); art.className='term';
+    var head=document.createElement('header');
+    var h=document.createElement('h3'); h.appendChild(hl(x.t,words));
+    var tag=document.createElement('span'); tag.className='tag'; tag.textContent=x.c;
+    head.appendChild(h); head.appendChild(tag);
+    var p=document.createElement('p'); p.appendChild(hl(x.d,words));
+    art.appendChild(head); art.appendChild(p);
+    if(x.a.length){
+      var al=document.createElement('p'); al.className='alias'; al.textContent='함께 쓰는 표현: '+x.a.join(', ');
+      art.appendChild(al);
+    }
+    frag.appendChild(art);
+  });
+  box.appendChild(frag);
+  $('#g-empty').hidden=list.length>0;
+  setText('#g-count','총 '+TERMS.length+'개 중 '+list.length+'개 표시');
+  $('#g-clear').hidden=!gState.q;
+}
+(function buildChips(){
+  var wrap=$('#g-chips');
+  ['전체'].concat(CATS).forEach(function(c){
+    var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=c;
+    b.setAttribute('aria-pressed',c==='전체'?'true':'false');
+    b.addEventListener('click',function(){
+      gState.cat=c;
+      $$('.chip',wrap).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      renderGlossary();
+    });
+    wrap.appendChild(b);
+  });
+})();
+$('#g-search').addEventListener('input',function(){gState.q=this.value;renderGlossary();});
+$('#g-clear').addEventListener('click',function(){
+  $('#g-search').value=''; gState.q=''; renderGlossary(); $('#g-search').focus();
+});
+$('#term-count').textContent=TERMS.length;
+renderGlossary();
+
+/* ---------- FAQ ---------- */
+$('#faq-toggle').addEventListener('click',function(){
+  var items=$$('details.faq').filter(function(d){return !d.hidden;}), open=items.some(function(d){return !d.open;});
+  items.forEach(function(d){d.open=open;});
+  this.textContent=open?'모두 접기':'모두 펼치기';
+});
+
+/* ---------- FAQ 검색 · 분류 필터 ---------- */
+/* 질문 글자를 하나의 span으로 묶어, 강조 표시가 flex 레이아웃에서 따로 떨어지지 않게 함 */
+$$('details.faq>summary').forEach(function(sm){
+  var host=$('.faq-q',sm)||sm, wrap=document.createElement('span'); wrap.className='faq-qt';
+  Array.prototype.slice.call(host.childNodes).forEach(function(n){
+    if(!(n.nodeType===1&&n.classList.contains('faq-cat'))) wrap.appendChild(n);
+  });
+  host.appendChild(wrap);
+});
+var FAQ=$$('details.faq').map(function(d){
+  var tag=$('.faq-cat',d), body=$('.faq-body',d);
+  var cat=d.getAttribute('data-cat')||(tag?tag.textContent:'기타');
+  return {el:d,cat:cat,hay:(d.textContent+' '+cat).toLowerCase(),body:(body?body.textContent:'').toLowerCase()};
+});
+var fState={q:'',cat:'전체'}, fAuto=[];
+function fClearMarks(){
+  $$('#faq mark').forEach(function(m){
+    var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize();
+  });
+}
+function fHighlight(el,words){
+  var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null), nodes=[], n;
+  while((n=tw.nextNode())){
+    var low=n.nodeValue.toLowerCase();
+    if(words.some(function(w){return low.indexOf(w)>-1;})) nodes.push(n);
+  }
+  nodes.forEach(function(t){t.parentNode.replaceChild(hl(t.nodeValue,words),t);});
+}
+function renderFaq(){
+  var q=fState.q.trim().toLowerCase(), words=q.split(/\s+/).filter(Boolean);
+  fClearMarks();
+  fAuto.forEach(function(d){d.open=false;}); fAuto=[];     /* 이전 검색으로 자동 펼친 항목 접기 */
+  var shown=0;
+  FAQ.forEach(function(x){
+    var ok=(fState.cat==='전체'||x.cat===fState.cat) && words.every(function(w){return x.hay.indexOf(w)>-1;});
+    x.el.hidden=!ok;
+    if(!ok) return;
+    shown++;
+    if(words.length){
+      fHighlight(x.el,words);
+      if(!x.el.open && words.some(function(w){return x.body.indexOf(w)>-1;})){x.el.open=true; fAuto.push(x.el);}
+    }
+  });
+  $('#faq-empty').hidden=shown>0;
+  setText('#faq-count','총 '+FAQ.length+'개 중 '+shown+'개 표시');
+  $('#faq-clear').hidden=!fState.q;
+  var vis=FAQ.filter(function(x){return !x.el.hidden;});
+  $('#faq-toggle').textContent=(vis.length&&vis.every(function(x){return x.el.open;}))?'모두 접기':'모두 펼치기';
+}
+(function buildFaqChips(){
+  var wrap=$('#faq-chips'), cats=['전체'];
+  FAQ.forEach(function(x){if(cats.indexOf(x.cat)<0) cats.push(x.cat);});
+  cats.forEach(function(c){
+    var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=c;
+    b.setAttribute('aria-pressed',c==='전체'?'true':'false');
+    b.addEventListener('click',function(){
+      fState.cat=c;
+      $$('.chip',wrap).forEach(function(k){k.setAttribute('aria-pressed',k===b?'true':'false');});
+      renderFaq();
+    });
+    wrap.appendChild(b);
+  });
+})();
+$('#faq-search').addEventListener('input',function(){fState.q=this.value;renderFaq();});
+$('#faq-clear').addEventListener('click',function(){
+  $('#faq-search').value=''; fState.q=''; renderFaq(); $('#faq-search').focus();
+});
+renderFaq();
+
+/* ---------- 자료실 ---------- */
+var LIB=[
+ {tag:'세금',t:'홈택스',org:'국세청',d:'세금 신고·납부, 전자세금계산서 발급·조회, 각종 증명서 발급을 이용하실 수 있습니다.',url:'https://www.hometax.go.kr'},
+ {tag:'세금',t:'국세청 누리집',org:'국세청',d:'세금 안내, 신고 달력, 법령해석 및 보도자료 등 국세 관련 공식 정보를 제공합니다.',url:'https://www.nts.go.kr'},
+ {tag:'법령',t:'국가법령정보센터',org:'법제처',d:'부가가치세법, 소득세법, 상속세 및 증여세법 등 현행 법령 원문과 개정 이력을 확인하실 수 있습니다.',url:'https://www.law.go.kr'},
+ {tag:'금융소비자',t:'금융소비자 정보포털 파인',org:'금융감독원',d:'대출·예적금 등 금융상품 정보와 금융소비자 유의사항, 금융 꿀팁을 제공합니다.',url:'https://fine.fss.or.kr'},
+ {tag:'금융소비자',t:'금융감독원',org:'금융감독원',d:'소비자 경보, 금융교육 자료, 감독·검사 관련 보도자료를 확인하실 수 있습니다.',url:'https://www.fss.or.kr'},
+ {tag:'금융규제',t:'금융위원회',org:'금융위원회',d:'금융 정책과 규제 개정 사항, 보도자료 및 법령 제·개정 예고를 확인하실 수 있습니다.',url:'https://www.fsc.go.kr'},
+ {tag:'금리·환율',t:'경제통계시스템 ECOS',org:'한국은행',d:'기준금리, 시장금리, 환율 등 금리·거시지표 통계를 조회하고 내려받으실 수 있습니다.',url:'https://ecos.bok.or.kr'},
+ {tag:'금리·환율',t:'한국은행 누리집',org:'한국은행',d:'통화정책 결정 내용, 경제 분석 자료와 금융·경제 교육 자료를 제공합니다.',url:'https://www.bok.or.kr'},
+ {tag:'공시·시장',t:'전자공시시스템 DART',org:'금융감독원',d:'상장·비상장 기업의 사업보고서, 지분 보고 등 공시 자료를 열람하실 수 있습니다.',url:'https://dart.fss.or.kr'},
+ {tag:'공시·시장',t:'KIND 상장공시시스템',org:'한국거래소',d:'상장법인의 수시공시, 시장 조치 및 공시 현황을 확인하실 수 있습니다.',url:'https://kind.krx.co.kr'},
+ {tag:'공시·시장',t:'KRX 정보데이터시스템',org:'한국거래소',d:'주가·거래·시장 통계 등 한국거래소의 시장 데이터를 조회하실 수 있습니다.',url:'https://data.krx.co.kr'}
+];
+(function buildLib(){
+  var box=$('#lib-list');
+  LIB.forEach(function(x){
+    var a=document.createElement('a'); a.className='lib-card'; a.href=x.url; a.target='_blank'; a.rel='noopener noreferrer';
+    var tag=document.createElement('span'); tag.className='tag'; tag.textContent=x.tag;
+    var h=document.createElement('h3'); h.textContent=x.t;
+    var org=document.createElement('span'); org.className='org'; org.textContent=x.org+' · '+x.url.replace('https://','').replace('www.','');
+    var p=document.createElement('p'); p.textContent=x.d;
+    var go=document.createElement('span'); go.className='go'; go.textContent='공식 사이트 열기 ↗';
+    a.setAttribute('aria-label',x.t+' ('+x.org+') 공식 사이트 새 창으로 열기');
+    [tag,h,org,p,go].forEach(function(n){a.appendChild(n);});
+    box.appendChild(a);
+  });
+})();
+
+/* ---------- 자료실 파일 목록 (files/ 폴더) ---------- */
+/* [부서번호, 부서, 저장될 한글 파일명, files/ 안의 실제 파일명, 설명(각 PDF 첫 페이지의 안내 문구), 용량(byte)] */
+var DL=[
+ ["01","인사HR · 채용안내","인재상_조직문화_소개서.pdf","01-hr-talent-culture-guide.pdf","우리가 함께 일하고 싶은 사람, 그리고 일하는 방식을 소개합니다.",252030],
+ ["01","인사HR · 채용안내","채용공고_2026년_상반기.pdf","01-hr-job-posting-2026-h1.pdf","모집 직무, 전형 절차, 지원 방법을 안내합니다.",284486],
+ ["02","영업마케팅 · 제품소개","고객지원_안내서.pdf","02-sales-customer-support-guide.pdf","문의 접수부터 A/S 처리까지의 절차와 기준을 안내합니다.",244685],
+ ["02","영업마케팅 · 제품소개","제품서비스_소개서.pdf","02-sales-product-service-intro.pdf","주요 제품 라인업과 서비스 구성, 도입 절차를 안내합니다.",271341],
+ ["03","재무회계 · 생활재무","생활_재무세금_기초가이드.pdf","03-finance-life-finance-tax-basics.pdf","부가가치세, 대출 이자, 환율 등 실생활에서 자주 만나는 개념을 쉽게 정리했습니다.",273894],
+ ["03","재무회계 · 생활재무","재무_용어집.pdf","03-finance-glossary.pdf","업무 중 자주 마주치는 재무 용어를 쉬운 말로 풀었습니다.",253841],
+ ["04","기획경영지원 · 회사소개ESG","ESG_활동_소개서.pdf","04-planning-esg-activities.pdf","환경, 사회, 지배구조 측면에서 추진하는 활동을 정리했습니다.",229150],
+ ["04","기획경영지원 · 회사소개ESG","회사_소개서.pdf","04-planning-company-intro.pdf","비전과 핵심가치, 사업 영역, 연혁을 소개합니다.",255896],
+ ["05","설비자재유통팀","설비자재_제품카탈로그.pdf","05-equipment-product-catalog.pdf","취급 품목과 규격, 인증 기준을 안내합니다.",270081],
+ ["05","설비자재유통팀","주문납품_거래안내서.pdf","05-equipment-order-delivery-guide.pdf","견적 요청부터 현장 납품까지의 절차와 기준을 안내합니다.",248566],
+ ["06","수주영업팀 · 레미콘","레미콘_제품안내서.pdf","06-readymix-product-guide.pdf","규격 표기, 용도별 선택 기준, 품질 관리 방법을 안내합니다.",283101],
+ ["06","수주영업팀 · 레미콘","출하_거래절차_안내서.pdf","06-readymix-shipping-transaction-procedure.pdf","견적부터 정산까지의 흐름과 출하 요청 전 확인 사항입니다.",248492],
+ ["07","Vision전략팀","부문_비전전략_소개서.pdf","07-vision-division-strategy-intro.pdf","비전 체계와 전략 방향, 중장기 로드맵을 소개합니다.",255990],
+ ["07","Vision전략팀","사업포트폴리오_안내서.pdf","07-vision-business-portfolio-guide.pdf","기존 사업과 신사업 영역의 구성과 연결 구조를 설명합니다.",227798],
+ ["08","MD팀 · 건자재하우징","상품등록_품질요건_안내.pdf","08-md-product-registration-quality-requirements.pdf","등록 전 준비해야 할 상품 정보와 품질 기준을 정리했습니다.",216654],
+ ["08","MD팀 · 건자재하우징","협력사_입점제안_가이드.pdf","08-md-partner-listing-proposal-guide.pdf","건자재·하우징 상품 공급을 희망하는 업체를 위한 절차 안내입니다.",259462],
+ ["09","총무팀 · 근무환경안전","비상대응_행동요령.pdf","09-general-affairs-emergency-response.pdf","화재, 지진, 정전, 응급환자 발생 시 행동 요령입니다.",257554],
+ ["09","총무팀 · 근무환경안전","시설이용_안내서.pdf","09-general-affairs-facility-guide.pdf","회의실, 주차, 편의시설 이용 방법과 각종 신청 절차를 안내합니다.",227010],
+ ["10","프리콘팀","공법기술_브로슈어.pdf","10-precon-construction-method-brochure.pdf","적용 가능한 공법과 기대 효과를 일반적인 수준에서 소개합니다.",236897],
+ ["10","프리콘팀","프리콘_서비스소개서.pdf","10-precon-service-intro.pdf","착공 전 단계에서 리스크를 줄이는 프리콘 서비스를 소개합니다.",267005],
+ ["11","CM팀 · 건설사업관리","CM_서비스소개서.pdf","11-cm-service-intro.pdf","발주처를 대신해 사업 전 과정을 관리하는 CM 서비스를 소개합니다.",240994],
+ ["11","CM팀 · 건설사업관리","공정품질안전_관리기준.pdf","11-cm-schedule-quality-safety-standards.pdf","CM이 관리하는 네 가지 축의 기본 원칙입니다.",209769],
+ ["12","경영개선팀 · 혁신윤리","업무혁신_PI추진_가이드.pdf","12-improvement-pi-promotion-guide.pdf","업무 프로세스를 개선하는 절차와 방법을 안내합니다.",278493],
+ ["12","경영개선팀 · 혁신윤리","윤리강령_행동규범.pdf","12-improvement-code-of-ethics.pdf","임직원과 협력사가 함께 지켜야 할 기본 원칙입니다.",244555],
+ ["13","자금팀 · 대금지급","금융사기_예방안내.pdf","13-treasury-financial-fraud-prevention.pdf","자주 발생하는 사기 수법과 대응 요령을 정리했습니다.",257942],
+ ["13","자금팀 · 대금지급","협력사_대금지급_절차안내서.pdf","13-treasury-partner-payment-procedure.pdf","세금계산서 발행부터 지급까지의 흐름과 준비 서류를 안내합니다.",262142],
+ ["14","회계팀 · 증빙결산","재무제표_읽는법.pdf","14-accounting-reading-financial-statements.pdf","재무상태표, 손익계산서, 현금흐름표의 구조를 쉽게 설명합니다.",262254],
+ ["14","회계팀 · 증빙결산","증빙제출_가이드.pdf","14-accounting-evidence-submission-guide.pdf","적격 증빙의 종류와 지출 유형별 처리 방법을 안내합니다.",263771],
+ ["15","신사업팀 · 오픈이노베이션","사업성검토_기초.pdf","15-new-business-feasibility-basics.pdf","NPV, 회수기간, 시장 규모 산정 등 기본 개념을 설명합니다.",252492],
+ ["15","신사업팀 · 오픈이노베이션","사업제안_가이드.pdf","15-new-business-proposal-guide.pdf","스타트업·파트너사를 위한 제안 절차와 검토 기준입니다.",275622],
+ ["16","재무기획팀 · 예산관리","손익_가치평가_기초.pdf","16-fin-planning-pnl-valuation-basics.pdf","손익분기점과 기업가치 평가의 기본 개념을 설명합니다.",254509],
+ ["16","재무기획팀 · 예산관리","예산편성_신청안내.pdf","16-fin-planning-budget-request-guide.pdf","연간 예산 사이클과 예산 신청 방법을 안내합니다.",273673],
+ ["17","HR팀 · 직원생애주기","신규입사자_온보딩_가이드.pdf","17-hr-new-hire-onboarding-guide.pdf","첫날부터 첫 달까지, 무엇을 언제 해야 하는지 안내합니다.",227278],
+ ["17","HR팀 · 직원생애주기","인사제도_공개안내.pdf","17-hr-policy-public-guide.pdf","휴가, 복지, 증명서 발급 등 임직원이 자주 찾는 제도를 정리했습니다.",243013],
+ ["18","IB본부팀 · 기업금융","IB_서비스소개서.pdf","18-ib-service-intro.pdf","기업 고객을 위한 자금조달과 자문 서비스를 소개합니다.",276676],
+ ["18","IB본부팀 · 기업금융","자금조달_용어안내.pdf","18-ib-funding-terms-guide.pdf","재무 담당자가 자주 마주치는 용어를 정리했습니다.",274786],
+ ["19","리서치센터팀","리서치_이용안내서.pdf","19-research-usage-guide.pdf","리서치 분야와 보고서 종류, 이용 방법을 안내합니다.",265861],
+ ["19","리서치센터팀","투자지표_용어해설집.pdf","19-research-investment-indicators-glossary.pdf","PER, PBR, ROE 등 자주 쓰는 지표를 쉽게 풀었습니다.",271400],
+ ["20","대안투자본부팀","ESG_책임투자_원칙.pdf","20-alt-invest-esg-responsible-investment-principles.pdf","투자 의사결정에 ESG 요소를 반영하는 기본 원칙입니다.",250172],
+ ["20","대안투자본부팀","대안투자_이해안내서.pdf","20-alt-invest-understanding-guide.pdf","부동산, 인프라, PEF 등 전통자산 외 투자 영역을 설명합니다.",276754],
+ ["21","주식채권운용본부","운용철학_프로세스_소개서.pdf","21-asset-mgmt-philosophy-process-intro.pdf","자산을 운용하는 기준과 절차를 소개합니다.",278628],
+ ["21","주식채권운용본부","자산배분_리스크관리_기초.pdf","21-asset-mgmt-allocation-risk-basics.pdf","분산투자와 위험 관리의 기본 개념을 설명합니다.",261437]
+];
+(function buildDl(){
+  var box=$('#dl-list'), cur=null, ul=null;
+  if(location.protocol==='file:'){var fn=$('#dl-file-note'); if(fn) fn.hidden=false;}
+  function fmt(b){return b<1048576?Math.round(b/1024)+' KB':(b/1048576).toFixed(1)+' MB';}
+  DL.forEach(function(x){
+    if(cur!==x[0]){
+      cur=x[0];
+      var g=document.createElement('h4'); g.className='dl-group';
+      var n=document.createElement('span'); n.className='num'; n.textContent=x[0];
+      g.appendChild(n); g.appendChild(document.createTextNode(x[1]));
+      ul=document.createElement('ul'); ul.className='dl-list';
+      box.appendChild(g); box.appendChild(ul);
+    }
+    var li=document.createElement('li'); li.className='dl-row';
+    var nm=document.createElement('div'); nm.className='dl-name'; nm.appendChild(document.createTextNode(x[2]));
+    var sm=document.createElement('small'); sm.textContent='files/'+x[3]; nm.appendChild(sm);
+    var p=document.createElement('p'); p.className='dl-desc'; p.textContent=x[4];
+    var sz=document.createElement('span'); sz.className='dl-size'; sz.textContent=fmt(x[5]);
+    var act=document.createElement('div'); act.className='dl-act';
+    var a=document.createElement('a'); a.className='btn btn-primary btn-sm'; a.href='files/'+x[3]; a.setAttribute('download',x[2]);
+    a.setAttribute('aria-label',x[2]+' 다운로드 ('+fmt(x[5])+')');
+    a.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>';
+    a.appendChild(document.createTextNode('다운로드'));
+    act.appendChild(a);
+    [nm,p,sz,act].forEach(function(e){li.appendChild(e);});
+    ul.appendChild(li);
+  });
+})();
+
+/* ---------- 내비게이션 / 스크롤 ---------- */
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+$$('a[data-nav]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var id=a.getAttribute('href').slice(1), target=document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    var tabId=a.getAttribute('data-open-tab'); if(tabId) activateTab(tabId);
+    target.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    try{history.replaceState(null,'','#'+id);}catch(err){}
+  });
+});
+var ids=['home','calc','glossary','faq','library'];
+var navLinks=$$('.nav a');
+var ticking=false;
+function spy(){
+  ticking=false;
+  var y=window.scrollY+parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))+120, cur=ids[0];
+  ids.forEach(function(id){var el=document.getElementById(id); if(el&&el.offsetTop<=y) cur=id;});
+  if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4) cur=ids[ids.length-1];
+  navLinks.forEach(function(l){
+    var on=l.getAttribute('href')==='#'+cur;
+    l.classList.toggle('active',on);
+    if(on) l.setAttribute('aria-current','true'); else l.removeAttribute('aria-current');
+  });
+}
+window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(spy);}},{passive:true});
+window.addEventListener('resize',spy);
+spy();
+})();
+</script>
+</body>
+</html>
